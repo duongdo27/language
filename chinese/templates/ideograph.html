@@ -5,10 +5,10 @@
     {{ object.text }}
     &nbsp;
     <small>
-    <a onclick="this.children[0].play()">
-        <audio src="/static/sounds/{{ object.audio }}"></audio>
-        <span class="glyphicon glyphicon-volume-up"></span>
-    </a>​
+        <a onclick="this.children[0].play()">
+            <audio src="/static/sounds/{{ object.audio }}"></audio>
+            <span class="glyphicon glyphicon-volume-up"></span>
+        </a>​
     </small>
 </h1>
 
@@ -48,6 +48,33 @@
         </a>
     </div>
 </div>
+
+<br>
+<h3>Examples</h3>
+{% for example in examples %}
+<div>
+<a onclick="this.children[0].play()">
+            <audio src="/static/sounds/{{ example.word_audio }}"></audio>
+            <span class="glyphicon glyphicon-volume-up"></span>
+</a>​
+&nbsp; {{ example.word }}
+(<em class="text-danger">{{ example.word_pinyin }}</em>) :
+<strong>{{ example.word_meaning }}</strong>
+<br>
+</div>
+
+<div>
+<a onclick="this.children[0].play()">
+            <audio src="/static/sounds/{{ example.phrase_audio }}"></audio>
+            <span class="glyphicon glyphicon-volume-up"></span>
+</a>​
+&nbsp; {{ example.phrase }}
+(<em class="text-danger">{{ example.phrase_pinyin }}</em>) :
+<strong>{{ example.phrase_meaning }}</strong><br>
+</div>
+<hr>
+{% endfor %}
+
 {% endblock %}
 
 {% block scripts %}

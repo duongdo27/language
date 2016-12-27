@@ -22,3 +22,14 @@ class Story(models.Model):
     position = models.IntegerField()
 
 
+class Example(models.Model):
+    ideograph = models.ForeignKey(Ideograph, on_delete=models.CASCADE)
+    position = models.IntegerField()
+    word = models.CharField(max_length=50, null=True)
+    word_meaning = models.CharField(max_length=100, null=True)
+    word_pinyin = models.CharField(max_length=100, null=True)
+    word_audio = models.CharField(max_length=50,null=True)
+    phrase = models.CharField(max_length=100, null=True)
+    phrase_meaning = models.CharField(max_length=200, null=True)
+    phrase_pinyin = models.CharField(max_length=200, null=True)
+    phrase_audio = models.CharField(max_length=50,null=True)
