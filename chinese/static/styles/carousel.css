@@ -1,0 +1,11 @@
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 72%;
+    margin: auto;
+}
+.carousel-caption,
+.carousel-indicators {
+    position: relative;
+    left: auto;
+    right: auto;
+}
