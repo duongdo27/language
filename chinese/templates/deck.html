@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ object.name }}</h1>
+<h1 class="text-danger">{{ object.name }}</h1>
+
+{% for lesson, ideographs in data %}
+<div class="row">
+    <div class="col-sm-2">
+    <h2>Lesson {{ lesson|add:1 }}</h2>
+    </div>
+    <div class="col-sm-6 col-sm-offset-1">
+    <h2>
+    {% for ideograph in ideographs %}
+        <a href="{% url 'chinese:ideograph' ideograph.id %}">{{ ideograph.text }}</a>
+    {% endfor %}
+    </h2>
+    </div>
+</div>
+<hr>
+{% endfor %}
+
 {% endblock %}

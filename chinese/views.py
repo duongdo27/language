@@ -2,7 +2,7 @@ from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from .models import Ideograph, Story, Example, Deck
+from .models import Ideograph, Story, Example, Deck, DeckIdeograph
 
 
 class HomeView(TemplateView):
@@ -31,5 +31,16 @@ class DeckDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DeckDetailView, self).get_context_data(**kwargs)
+        ls = DeckIdeograph.objects.filter(deck=self.object).order_by('position')
+
+        data = {}
+        for deck_ideograph in ls:
+            lesson = deck_ideograph.lesson
+            if lesson in data:
+                data[lesson].append(deck_ideograph.ideograph)
+            else:
+                data[lesson] = [deck_ideograph.ideograph]
+
+        context['data'] = data.items()
         return context
 
