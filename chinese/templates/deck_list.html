@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+{% for deck in object_list %}
+    <div class="col-sm-6">
+         <a href="{% url 'chinese:deck' deck.id %}">
+             <img src="static/images/{{ deck.image }}">
+         </a>
+        <h1 class="text-center">{{ deck.name }}</h1>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

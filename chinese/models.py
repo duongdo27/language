@@ -33,3 +33,16 @@ class Example(models.Model):
     phrase_meaning = models.CharField(max_length=200, null=True)
     phrase_pinyin = models.CharField(max_length=200, null=True)
     phrase_audio = models.CharField(max_length=50,null=True)
+
+
+class Deck(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    position = models.IntegerField()
+    image = models.CharField(max_length=50, null=True)
+
+
+class DeckIdeograph(models.Model):
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
+    ideograph = models.ForeignKey(Ideograph, on_delete=models.CASCADE)
+    lesson = models.IntegerField()
+    position = models.IntegerField()
