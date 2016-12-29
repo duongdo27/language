@@ -3,9 +3,30 @@
     width: 72%;
     margin: auto;
 }
+
 .carousel-caption,
 .carousel-indicators {
     position: relative;
     left: auto;
     right: auto;
+}
+
+.text-image {
+    height: 2em;
+    width: 1.3em;
+    -webkit-filter: invert(100%);
+}
+
+m,
+sm {
+    color: red;
+}
+
+h {
+    color: orange;
+}
+
+s {
+    color: green;
+    text-decoration: none;
 }

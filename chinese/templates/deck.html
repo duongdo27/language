@@ -6,17 +6,29 @@
 {% for lesson, ideographs in data %}
 <div class="row">
     <div class="col-sm-2">
-    <h2>Lesson {{ lesson|add:1 }}</h2>
+        <h2>Lesson {{ lesson|add:1 }}</h2>
     </div>
     <div class="col-sm-6 col-sm-offset-1">
-    <h2>
-    {% for ideograph in ideographs %}
-        <a href="{% url 'chinese:ideograph' ideograph.id %}">{{ ideograph.text }}</a>
-    {% endfor %}
-    </h2>
+        <h2>
+            {% for ideograph in ideographs %}
+            {% if ideograph.image %}
+                <a href="{% url 'chinese:ideograph' ideograph.id %}">
+                    <img class="text-image" src="/static/images/{{ ideograph.image }}">
+                </a>
+            {% else %}
+                <a href="{% url 'chinese:ideograph' ideograph.id %}">{{ ideograph.text }}</a>
+            {% endif %}
+            |
+            {% endfor %}
+        </h2>
     </div>
 </div>
 <hr>
 {% endfor %}
 
+{% endblock %}
+
+{% block scripts %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/ideograph.css' %}">
 {% endblock %}
