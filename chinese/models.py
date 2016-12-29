@@ -35,6 +35,11 @@ class Example(models.Model):
     phrase_audio = models.CharField(max_length=50,null=True)
 
 
+class Component(models.Model):
+    ideograph = models.ForeignKey(Ideograph, on_delete=models.CASCADE, related_name='ideograph')
+    component = models.ForeignKey(Ideograph, on_delete=models.CASCADE, related_name='component')
+
+
 class Deck(models.Model):
     name = models.CharField(max_length=50, unique=True)
     position = models.IntegerField()

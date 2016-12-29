@@ -21,7 +21,22 @@
 {% if object.pinyin %}
 <h3 class="text-danger">Pinyin: {{ object.pinyin }}</h3>
 {% endif %}
-<h3 class="text-info">Meaning: {{ object.meaning }}</h3>
+<h3 class="text-success">Meaning: {{ object.meaning }}</h3>
+
+{% if components %}
+<h3 class="text-info">Components:
+{% for component in components %}
+    {% if component.image %}
+        <a href="{% url 'chinese:ideograph' component.id %}">
+            <img class="text-image" src="/static/images/{{ component.image }}">
+        </a>
+    {% else %}
+        <a href="{% url 'chinese:ideograph' component.id %}">{{ component.text }}</a>
+    {% endif %}
+    ,
+{% endfor %}
+</h3>
+{% endif %}
 
 <br>
 
@@ -34,14 +49,14 @@
         <div class="item active">
             <img src="/static/images/{{ story.image }}" alt="Story Image">
             <div class="carousel-caption">
-                <p class="text-info">{{ forloop.counter}}. {{ story.text|safe }}</p>
+                <h3 class="text-info">{{ forloop.counter}}. {{ story.text|safe }}</h3>
             </div>
         </div>
         {% else %}
         <div class="item">
             <img src="/static/images/{{ story.image }}" alt="Story Image">
             <div class="carousel-caption">
-                <p class="text-info">{{ forloop.counter}}. {{ story.text|safe }}</p>
+                <h3 class="text-info">{{ forloop.counter}}. {{ story.text|safe }}</h3>
             </div>
         </div>
         {% endif %}
