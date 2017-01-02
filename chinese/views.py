@@ -45,3 +45,11 @@ class DeckDetailView(DetailView):
         context['data'] = data.items()
         return context
 
+
+class QuizView(TemplateView):
+    template_name = "quiz.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(QuizView, self).get_context_data(**kwargs)
+        print kwargs
+        return context

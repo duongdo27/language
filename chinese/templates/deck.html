@@ -8,7 +8,7 @@
     <div class="col-sm-2">
         <h2>Lesson {{ lesson|add:1 }}</h2>
     </div>
-    <div class="col-sm-6 col-sm-offset-1">
+    <div class="col-sm-4 col-sm-offset-1">
         <h2>
             {% for ideograph in ideographs %}
             {% if ideograph.image %}
@@ -22,9 +22,18 @@
             {% endfor %}
         </h2>
     </div>
+    <div class="col-sm-2">
+        <p><a class="btn btn-lg btn-success" href="{% url 'chinese:lesson_quiz' object.id lesson %}">
+            Quiz
+        </a></p>
+    </div>
 </div>
 <hr>
 {% endfor %}
+
+<p><a class="btn btn-lg btn-danger" href="{% url 'chinese:deck_quiz' object.id %}">
+    Comprehensive Quiz
+</a></p>
 
 {% endblock %}
 
