@@ -27,7 +27,7 @@ var Board = React.createClass({
 
     getInitialState: function () {
         return {
-            data: [["Who?", "a", "b", "c", "d", 2], ["What?", "a", "e", "v", "d", 3]],
+            data: data,
             num: 0,
             current_result: [0, 0, 0, 0],
             answered: false,

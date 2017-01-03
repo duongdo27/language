@@ -1,8 +1,11 @@
+import json
+
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from .models import Ideograph, Story, Example, Deck, DeckIdeograph, Component
+from .helper import generate_quiz_data
 
 
 class HomeView(TemplateView):
@@ -51,5 +54,6 @@ class QuizView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(QuizView, self).get_context_data(**kwargs)
-        print kwargs
+        data = json.dumps(generate_quiz_data(kwargs['deck_id'], kwargs['lesson']))
+        context['data'] = data
         return context
