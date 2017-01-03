@@ -3,7 +3,11 @@ from random import shuffle
 
 
 def generate_quiz_data(deck_id, lesson):
-    pick_ideographs = [x.ideograph for x in DeckIdeograph.objects.filter(deck_id=deck_id).filter(lesson=lesson)]
+    if lesson:
+        pick_ideographs = [x.ideograph for x in DeckIdeograph.objects.filter(deck_id=deck_id).filter(lesson=lesson)]
+    else:
+        pick_ideographs = [x.ideograph for x in DeckIdeograph.objects.filter(deck_id=deck_id)]
+
     available_ideographs = [x.ideograph for x in DeckIdeograph.objects.filter(deck_id=deck_id)]
 
     ls = generate_meaning_questions(pick_ideographs, available_ideographs) + \
@@ -16,7 +20,7 @@ def generate_meaning_questions(pick_ideograph, available_ideographs):
     shuffle(pick_ideograph)
 
     ls = []
-    for correct_ideograph in pick_ideograph:
+    for correct_ideograph in pick_ideograph[:10]:
         current_available_ideographs = [x for x in available_ideographs if x != correct_ideograph]
         shuffle(current_available_ideographs)
 
@@ -37,7 +41,7 @@ def generate_pinyin_questions(pick_ideograph, available_ideographs):
     shuffle(pick_ideograph)
 
     ls = []
-    for correct_ideograph in pick_ideograph:
+    for correct_ideograph in pick_ideograph[:10]:
         if correct_ideograph.pinyin is None:
             continue
         current_available_ideographs = [x for x in available_ideographs if x != correct_ideograph and x.pinyin]

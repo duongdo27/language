@@ -54,6 +54,5 @@ class QuizView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(QuizView, self).get_context_data(**kwargs)
-        data = json.dumps(generate_quiz_data(kwargs['deck_id'], kwargs['lesson']))
-        context['data'] = data
+        context['data'] = json.dumps(generate_quiz_data(kwargs.get('deck_id'), kwargs.get('lesson')))
         return context
