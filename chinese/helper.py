@@ -24,7 +24,10 @@ def generate_meaning_questions(pick_ideograph, available_ideographs):
         current_available_ideographs = [x for x in available_ideographs if x != correct_ideograph]
         shuffle(current_available_ideographs)
 
-        question = u'What is the meaning of {}?'.format(correct_ideograph.text)
+        if correct_ideograph.image:
+            question = u'What is the meaning of <img class="text-image" src="/static/images/{}">?'.format(correct_ideograph.image)
+        else:
+            question = u'What is the meaning of {}?'.format(correct_ideograph.text)
         answers = [
             correct_ideograph.meaning,
             current_available_ideographs[0].meaning,

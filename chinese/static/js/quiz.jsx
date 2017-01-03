@@ -71,7 +71,7 @@ var Board = React.createClass({
         return (
             <div className="col-sm-6">
                  <h1 className="text-center">Question {this.state.num + 1}</h1>
-                 <h3 className="text-center text-warning">{this.state.data[this.state.num][0]}</h3>
+                 <h3 className="text-center text-warning" dangerouslySetInnerHTML={{__html: this.state.data[this.state.num][0]}}></h3>
                  <ul>
                  <Answer value={this.state.data[this.state.num][1]}
                          onClick={() => this.handleClick(0)}

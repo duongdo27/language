@@ -11,3 +11,9 @@ li {
 {
     text-align:center;
 }
+
+.text-image {
+    height: 2em;
+    width: 1.3em;
+    -webkit-filter: invert(100%);
+}

@@ -86,11 +86,7 @@ var Board = React.createClass({
                 "Question ",
                 this.state.num + 1
             ),
-            React.createElement(
-                "h3",
-                { className: "text-center text-warning" },
-                this.state.data[this.state.num][0]
-            ),
+            React.createElement("h3", { className: "text-center text-warning", dangerouslySetInnerHTML: { __html: this.state.data[this.state.num][0] } }),
             React.createElement(
                 "ul",
                 null,
