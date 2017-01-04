@@ -31,7 +31,8 @@ var Board = React.createClass({
             num: 0,
             current_result: [0, 0, 0, 0],
             answered: false,
-            finished: false
+            finished: false,
+            corrects: 0
         };
     },
 
@@ -44,6 +45,10 @@ var Board = React.createClass({
         current_result[correct] = 1;
         if (i != correct) {
             current_result[i] = -1;
+        } else {
+            this.setState({
+                corrects: this.state.corrects + 1
+            });
         }
         this.setState({
             current_result: current_result,
@@ -85,6 +90,14 @@ var Board = React.createClass({
                 { className: "text-center" },
                 "Question ",
                 this.state.num + 1
+            ),
+            React.createElement(
+                "h2",
+                { className: "text-center text-info" },
+                "Corrects: ",
+                this.state.corrects,
+                "/",
+                this.state.data.length
             ),
             React.createElement("h3", { className: "text-center text-warning", dangerouslySetInnerHTML: { __html: this.state.data[this.state.num][0] } }),
             React.createElement(
