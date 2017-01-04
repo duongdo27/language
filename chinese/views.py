@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from .models import Ideograph, Story, Example, Deck, DeckIdeograph, Component
+from .models import Ideograph, Story, Example, Deck, DeckIdeograph, Component, Proficiency
 from .helper import generate_quiz_data
 
 
@@ -35,15 +35,20 @@ class DeckDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DeckDetailView, self).get_context_data(**kwargs)
+
+        proficiency = Proficiency.objects.filter(user=self.request.user)
+        proficiency_lookup = {x.ideograph: x.score for x in proficiency}
+
         ls = DeckIdeograph.objects.filter(deck=self.object).order_by('position')
 
         data = {}
         for deck_ideograph in ls:
             lesson = deck_ideograph.lesson
+            row = (deck_ideograph.ideograph, proficiency_lookup.get(deck_ideograph.ideograph, 0))
             if lesson in data:
-                data[lesson].append(deck_ideograph.ideograph)
+                data[lesson].append(row)
             else:
-                data[lesson] = [deck_ideograph.ideograph]
+                data[lesson] = [row]
 
         context['data'] = data.items()
         return context

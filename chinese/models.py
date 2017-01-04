@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Ideograph(models.Model):
@@ -51,3 +52,9 @@ class DeckIdeograph(models.Model):
     ideograph = models.ForeignKey(Ideograph, on_delete=models.CASCADE)
     lesson = models.IntegerField()
     position = models.IntegerField()
+
+
+class Proficiency(models.Model):
+    ideograph = models.ForeignKey(Ideograph, on_delete=models.CASCADE)
+    user = models.ForeignKey(User)
+    score = models.IntegerField()

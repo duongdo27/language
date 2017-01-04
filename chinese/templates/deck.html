@@ -8,17 +8,20 @@
     <div class="col-sm-2">
         <h2>Lesson {{ lesson|add:1 }}</h2>
     </div>
-    <div class="col-sm-4 col-sm-offset-1">
+    <div class="col-sm-7 col-sm-offset-1">
         <h2>
-            {% for ideograph in ideographs %}
-            {% if ideograph.image %}
-                <a href="{% url 'chinese:ideograph' ideograph.id %}">
-                    <img class="text-image" src="/static/images/{{ ideograph.image }}">
-                </a>
-            {% else %}
-                <a href="{% url 'chinese:ideograph' ideograph.id %}">{{ ideograph.text }}</a>
-            {% endif %}
-            |
+            {% for ideograph, proficiency in ideographs %}
+                {% if ideograph.image %}
+                    <a href="{% url 'chinese:ideograph' ideograph.id %}">
+                        <img class="text-image" src="/static/images/{{ ideograph.image }}">
+                    </a>
+                {% else %}
+                    <a href="{% url 'chinese:ideograph' ideograph.id %}">{{ ideograph.text }}</a>
+                {% endif %}
+                <small class="text-warning">({{ proficiency }})</small>
+                {% if forloop.counter != ideographs|length %}
+                    |
+                {% endif %}
             {% endfor %}
         </h2>
     </div>
