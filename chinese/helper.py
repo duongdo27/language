@@ -36,7 +36,7 @@ def generate_meaning_questions(pick_ideograph, available_ideographs):
         ]
         shuffle(answers)
         correct_index = answers.index(correct_ideograph.meaning)
-        ls.append([question] + answers + [correct_index])
+        ls.append([question] + answers + [correct_index, correct_ideograph.id])
     return ls
 
 
@@ -59,5 +59,5 @@ def generate_pinyin_questions(pick_ideograph, available_ideographs):
         ]
         shuffle(answers)
         correct_index = answers.index(correct_ideograph.pinyin)
-        ls.append([question] + answers + [correct_index])
+        ls.append([question] + answers + [correct_index, correct_ideograph.id])
     return ls

@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^deck/(?P<pk>\d+)$', views.DeckDetailView.as_view(), name='deck'),
     url(r'^lesson_quiz/(?P<deck_id>\d+)/(?P<lesson>\d+)$', views.QuizView.as_view(), name='lesson_quiz'),
     url(r'^deck_quiz/(?P<deck_id>\d+)$', views.QuizView.as_view(), name='deck_quiz'),
+    url(r'^quiz_submit', views.QuizSubmitView.as_view(), name='quiz_submit'),
 ]

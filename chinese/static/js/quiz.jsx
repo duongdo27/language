@@ -29,7 +29,7 @@ var Board = React.createClass({
             current_result: [0, 0, 0, 0],
             answered: false,
             finished: false,
-            corrects: 0
+            scores: []
         }
     },
 
@@ -40,18 +40,21 @@ var Board = React.createClass({
         var current_result = [0, 0, 0, 0];
         var correct = this.state.data[this.state.num][5];
         current_result[correct] = 1;
-        if(i != correct){
+
+        var current_score = 1
+        if (i != correct){
             current_result[i] = -1;
+            var current_score = 0;
         }
-        else{
-            this.setState({
-                corrects: this.state.corrects + 1
-            })
-        }
+
+        var new_scores = this.state.scores.slice(0);
+        new_scores.push(current_score);
+
         this.setState({
             current_result: current_result,
             answered: true,
-            finished: this.state.num == this.state.data.length - 1
+            finished: this.state.num == this.state.data.length - 1,
+            scores: new_scores
         })
     },
 
@@ -64,6 +67,15 @@ var Board = React.createClass({
     },
 
     doneClick: function(evt) {
+        $.ajax({
+            type: 'POST',
+            url: "/quiz_submit",
+            data: {'data': JSON.stringify({
+                'scores': this.state.scores,
+                'ideographs': this.state.data.map(function (x) {return x[6]})
+            })},
+        });
+        window.location.href = success_url;
     },
 
     render: function() {
@@ -74,10 +86,12 @@ var Board = React.createClass({
           var footer = <button className = "btn btn-warning" onClick={this.nextClick}>Next</button>
         }
 
+        var total_score = this.state.scores.reduce(function(a, b) { return a + b; }, 0);
+
         return (
             <div className="col-sm-6">
                  <h1 className="text-center">Question {this.state.num + 1}</h1>
-                 <h2 className="text-center text-info">Corrects: {this.state.corrects}/{this.state.data.length}</h2>
+                 <h2 className="text-center text-info">Corrects: {total_score}/{this.state.data.length}</h2>
                  <h3 className="text-center text-warning" dangerouslySetInnerHTML={{__html: this.state.data[this.state.num][0]}}></h3>
                  <ul>
                  <Answer value={this.state.data[this.state.num][1]}

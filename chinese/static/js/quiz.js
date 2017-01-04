@@ -32,7 +32,7 @@ var Board = React.createClass({
             current_result: [0, 0, 0, 0],
             answered: false,
             finished: false,
-            corrects: 0
+            scores: []
         };
     },
 
@@ -43,17 +43,21 @@ var Board = React.createClass({
         var current_result = [0, 0, 0, 0];
         var correct = this.state.data[this.state.num][5];
         current_result[correct] = 1;
+
+        var current_score = 1;
         if (i != correct) {
             current_result[i] = -1;
-        } else {
-            this.setState({
-                corrects: this.state.corrects + 1
-            });
+            var current_score = 0;
         }
+
+        var new_scores = this.state.scores.slice(0);
+        new_scores.push(current_score);
+
         this.setState({
             current_result: current_result,
             answered: true,
-            finished: this.state.num == this.state.data.length - 1
+            finished: this.state.num == this.state.data.length - 1,
+            scores: new_scores
         });
     },
 
@@ -65,7 +69,19 @@ var Board = React.createClass({
         });
     },
 
-    doneClick: function (evt) {},
+    doneClick: function (evt) {
+        $.ajax({
+            type: 'POST',
+            url: "/quiz_submit",
+            data: { 'data': JSON.stringify({
+                    'scores': this.state.scores,
+                    'ideographs': this.state.data.map(function (x) {
+                        return x[6];
+                    })
+                }) }
+        });
+        window.location.href = success_url;
+    },
 
     render: function () {
         if (this.state.finished) {
@@ -82,6 +98,10 @@ var Board = React.createClass({
             );
         }
 
+        var total_score = this.state.scores.reduce(function (a, b) {
+            return a + b;
+        }, 0);
+
         return React.createElement(
             "div",
             { className: "col-sm-6" },
@@ -95,7 +115,7 @@ var Board = React.createClass({
                 "h2",
                 { className: "text-center text-info" },
                 "Corrects: ",
-                this.state.corrects,
+                total_score,
                 "/",
                 this.state.data.length
             ),
