@@ -86,3 +86,6 @@ class QuizSubmitView(View):
 
         return HttpResponse()
 
+
+class HelpView(TemplateView):
+    template_name = "help.html"

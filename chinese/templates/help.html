@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Chinese</h1>
+<p>Words are categorized into decks and lessons</p>
+<h3>Learning features</h3>
+<ul>
+    <li>Concise meaning</li>
+    <li>Pinyin and audio</li>
+    <li>Smaller components if possible</li>
+    <li>Fun pictures to help to remember the meaning and tone</li>
+    <li>Related phrases and sentences</li>
+    <li>Proficiency to keep track of your learning</li>
+</ul>
+
+<h3>Quiz</h3>
+<ul>
+    <li>Quiz on the meaning and pinyin</li>
+    <li>Each correct answer add 10 points to the proficiency</li>
+    <li>Each incorrect answer minus 10 points to the proficiency</li>
+    <li>Try to reach 100 points for all the words</li>
+</ul>
+
+{% endblock %}
+
+{% block scripts %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/ideograph.css' %}">
+{% endblock %}
