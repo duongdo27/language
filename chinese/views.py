@@ -32,6 +32,21 @@ class DeckListView(ListView):
     model = Deck
     template_name = 'deck_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(DeckListView, self).get_context_data(**kwargs)
+
+        proficiency_objects = Proficiency.objects.filter(user=self.request.user)
+        proficiency_lookup = {x.ideograph: x.score for x in proficiency_objects}
+
+        data = []
+        for deck in context['object_list']:
+            ideographs = [x.ideograph for x in DeckIdeograph.objects.filter(deck=deck)]
+            proficiency = sum([proficiency_lookup.get(x, 0) for x in ideographs]) / len(ideographs)
+            data.append((deck, proficiency))
+
+        context['data'] = data
+        return context
+
 
 class DeckDetailView(DetailView):
     model = Deck
@@ -40,21 +55,25 @@ class DeckDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(DeckDetailView, self).get_context_data(**kwargs)
 
-        proficiency = Proficiency.objects.filter(user=self.request.user)
-        proficiency_lookup = {x.ideograph: x.score for x in proficiency}
+        proficiency_objects = Proficiency.objects.filter(user=self.request.user)
+        proficiency_lookup = {x.ideograph: x.score for x in proficiency_objects}
 
-        ls = DeckIdeograph.objects.filter(deck=self.object).order_by('position')
+        deck_ideographs = DeckIdeograph.objects.filter(deck=self.object).order_by('position')
 
         data = {}
-        for deck_ideograph in ls:
+        total = 0
+        for deck_ideograph in deck_ideographs:
             lesson = deck_ideograph.lesson
-            row = (deck_ideograph.ideograph, proficiency_lookup.get(deck_ideograph.ideograph, 0))
+            proficiency = proficiency_lookup.get(deck_ideograph.ideograph, 0)
+            row = (deck_ideograph.ideograph, proficiency)
             if lesson in data:
                 data[lesson].append(row)
             else:
                 data[lesson] = [row]
+            total += proficiency
 
         context['data'] = data.items()
+        context['avg_proficiency'] = total / len(deck_ideographs)
         return context
 
 

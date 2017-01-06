@@ -2,6 +2,11 @@
 
 {% block content %}
 <h1 class="text-danger">{{ object.name }}</h1>
+<div class="progress">
+    <div class="progress-bar progress-bar-striped active" role="progressbar" style="width:{{ avg_proficiency }}%">
+        {{ avg_proficiency }}%
+    </div>
+</div>
 
 {% for lesson, ideographs in data %}
 <div class="row">

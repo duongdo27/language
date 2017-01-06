@@ -2,12 +2,18 @@
 
 {% block content %}
 <div class="row">
-{% for deck in object_list %}
+{% for deck, proficiency in data %}
     <div class="col-sm-6">
          <a href="{% url 'chinese:deck' deck.id %}">
              <img src="static/images/{{ deck.image }}">
          </a>
         <h1 class="text-center">{{ deck.name }}</h1>
+        <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width:{{ proficiency }}%">
+                {{ proficiency }}%
+            </div>
+        </div>
+        <hr>
     </div>
 {% endfor %}
 </div>
