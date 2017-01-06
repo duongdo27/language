@@ -50,10 +50,26 @@ var Board = React.createClass({
         var new_scores = this.state.scores.slice(0);
         new_scores.push(current_score);
 
+        if(this.state.num == this.state.data.length - 1) {
+            $.ajax({
+                type: 'POST',
+                url: "/quiz_submit",
+                data: {'data': JSON.stringify({
+                    'scores': this.state.scores,
+                    'ideographs': this.state.data.map(function (x) {return x[6]})
+                })},
+            });
+
+            var finished = true;
+        }
+        else {
+            var finished = false;
+        }
+
         this.setState({
             current_result: current_result,
             answered: true,
-            finished: this.state.num == this.state.data.length - 1,
+            finished: finished,
             scores: new_scores
         })
     },
@@ -66,24 +82,12 @@ var Board = React.createClass({
         })
     },
 
-    doneClick: function(evt) {
-        $.ajax({
-            type: 'POST',
-            url: "/quiz_submit",
-            data: {'data': JSON.stringify({
-                'scores': this.state.scores,
-                'ideographs': this.state.data.map(function (x) {return x[6]})
-            })},
-        });
-        window.location.href = success_url;
-    },
-
     render: function() {
         if(this.state.finished){
-          var footer = <button className = "btn btn-info" onClick={this.doneClick}>Done</button>
+          var footer = <a className="btn btn-info" href={success_url}>Done</a>
         }
         else if(this.state.answered){
-          var footer = <button className = "btn btn-warning" onClick={this.nextClick}>Next</button>
+          var footer = <button className="btn btn-warning" onClick={this.nextClick}>Next</button>
         }
 
         var total_score = this.state.scores.reduce(function(a, b) { return a + b; }, 0);
